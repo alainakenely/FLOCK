@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class StartButton : MonoBehaviour
+public class HomeStartButton : MonoBehaviour
 {
     public void StartGame()
     {
