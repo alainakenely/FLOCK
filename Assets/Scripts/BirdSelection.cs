@@ -5,25 +5,27 @@ using System.Collections.Generic;
 public class BirdSelectionController : MonoBehaviour
 {
     [Header("UI References")]
-    public Button startButton;        // Start Game button
-    public Button[] birdButtons;      // All bird buttons
-    public RectTransform selectionArea; // Area where selected birds line up
-    public float spacing = 100f;      // Horizontal spacing between selected birds
+    public Button startButton;          
+    public Button[] birdButtons;        
+    public RectTransform selectionArea; 
+    public float spacing = 100f;        
 
-    private List<Button> selectedBirds = new List<Button>();
-    private Dictionary<Button, Vector3> originalPositions = new Dictionary<Button, Vector3>();
+    // store both buttons + prefabs
+    private List<GameObject> selectedBirdPrefabs = new List<GameObject>();
+    private List<Button> selectedBirdButtons = new List<Button>();
+    private Dictionary<Button, Vector2> originalPositions = new Dictionary<Button, Vector2>();
 
     void Start()
     {
-        // Disable Start button initially
         startButton.interactable = false;
 
-        // Store original positions and hook up click events
+        // Assign the Start button click event
+        startButton.onClick.AddListener(StartGame);
+
         foreach (Button btn in birdButtons)
         {
-            originalPositions[btn] = btn.GetComponent<RectTransform>().position;
-
-            Button capturedBtn = btn; // capture for closure
+            originalPositions[btn] = btn.GetComponent<RectTransform>().anchoredPosition;
+            Button capturedBtn = btn; 
             capturedBtn.onClick.AddListener(() => ToggleBirdSelection(capturedBtn));
         }
     }
@@ -31,29 +33,48 @@ public class BirdSelectionController : MonoBehaviour
     void ToggleBirdSelection(Button birdButton)
     {
         RectTransform birdRect = birdButton.GetComponent<RectTransform>();
+        BirdButton birdData = birdButton.GetComponent<BirdButton>();
+        Debug.Log("Selected prefabs count: " + selectedBirdPrefabs.Count);
+        Debug.Log("Selecting: " + birdButton.name + " prefab: " + birdData.birdPrefab.name);
+        
 
-        if (selectedBirds.Contains(birdButton))
+        if (selectedBirdButtons.Contains(birdButton))
         {
-            // Deselect: remove from selection row
-            selectedBirds.Remove(birdButton);
-            birdRect.position = originalPositions[birdButton];
-            Debug.Log($"Deselected bird: {birdButton.name}");
+            // remove from selection
+            int index = selectedBirdButtons.IndexOf(birdButton);
+            selectedBirdButtons.Remove(birdButton);
+            selectedBirdPrefabs.RemoveAt(index);
+
+            birdRect.SetParent(selectionArea.parent);
+            birdRect.anchoredPosition = originalPositions[birdButton];
         }
         else
         {
-            // Select: add to selection row
-            selectedBirds.Add(birdButton);
-            Debug.Log($"Selected bird: {birdButton.name}");
+            // add to selection
+            selectedBirdButtons.Add(birdButton);
+            selectedBirdPrefabs.Add(birdData.birdPrefab);
+
+            birdRect.SetParent(selectionArea);
         }
 
-        // Reposition all selected birds in order
-        for (int i = 0; i < selectedBirds.Count; i++)
+        // reposition selected buttons in row
+        for (int i = 0; i < selectedBirdButtons.Count; i++)
         {
-            selectedBirds[i].GetComponent<RectTransform>().position =
-                selectionArea.position + new Vector3(i * spacing, 0f, 0f);
+            RectTransform rect = selectedBirdButtons[i].GetComponent<RectTransform>();
+            rect.anchoredPosition = new Vector2(i * spacing, 0f);
         }
 
-        // Enable/disable Start button depending on selection
-        startButton.interactable = selectedBirds.Count > 0;
+        startButton.interactable = selectedBirdButtons.Count > 0;
+    }
+
+    // Called when Start button is pressed
+    public void StartGame()
+    {
+        // Save currently selected prefabs to the static holder
+        BirdSelectionData.selectedBirds = new List<GameObject>(selectedBirdPrefabs);
+        Debug.Log("Saved prefabs count: " + BirdSelectionData.selectedBirds.Count);
+
+        // Load game scene
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Mountains");
     }
 }
