@@ -77,18 +77,5 @@ public class BirdSelectionController : MonoBehaviour
         // Load game scene
         UnityEngine.SceneManagement.SceneManager.LoadScene("Mountains");
     }
-
-    public class CollectibleBird : MonoBehaviour
-    {
-        public string birdId; // match BirdButton's ID
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.CompareTag("Player"))
-            {
-                BirdUnlockData.UnlockBird(birdId);
-                Destroy(gameObject);
-            }
-        }
-    }
+    
 }
