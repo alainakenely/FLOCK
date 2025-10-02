@@ -8,7 +8,7 @@ public class BirdSelectionController : MonoBehaviour
     public Button startButton;          
     public Button[] birdButtons;        
     public RectTransform selectionArea; 
-    public float spacing = 100f;        
+    public float spacing = 200f;        
 
     // store both buttons + prefabs
     private List<GameObject> selectedBirdPrefabs = new List<GameObject>();
@@ -76,5 +76,19 @@ public class BirdSelectionController : MonoBehaviour
 
         // Load game scene
         UnityEngine.SceneManagement.SceneManager.LoadScene("Mountains");
+    }
+
+    public class CollectibleBird : MonoBehaviour
+    {
+        public string birdId; // match BirdButton's ID
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Player"))
+            {
+                BirdUnlockData.UnlockBird(birdId);
+                Destroy(gameObject);
+            }
+        }
     }
 }
