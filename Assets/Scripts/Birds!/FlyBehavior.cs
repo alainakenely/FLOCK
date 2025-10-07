@@ -6,26 +6,14 @@ public class FlyBehavior : MonoBehaviour
     public float verticalSpeed = 3f;
     public float horizontalSpeed = 2f;
 
-    private RectTransform canvasRect;
-
-    void Start()
-    {
-        // Automatically find the Canvas in the parent hierarchy
-        Canvas parentCanvas = GetComponentInParent<Canvas>();
-        if (parentCanvas != null)
-        {
-            canvasRect = parentCanvas.GetComponent<RectTransform>();
-        }
-        else
-        {
-            Debug.LogError("FlyBehavior: Could not find parent Canvas!");
-        }
-    }
+    [Header("World Bounds")]
+    public float minX = -8f;
+    public float maxX = 8f;
+    public float minY = -4.5f;
+    public float maxY = 4.5f;
 
     void Update()
     {
-        if (canvasRect == null) return;
-
         // Get movement input
         Vector3 move = Vector3.zero;
         if (Input.GetKey(KeyCode.W)) move += Vector3.up;
@@ -36,14 +24,12 @@ public class FlyBehavior : MonoBehaviour
         // Move the bird
         transform.position += new Vector3(move.x * horizontalSpeed, move.y * verticalSpeed, 0f) * Time.deltaTime;
 
-        // Clamp position within canvas bounds
-        Vector3 clampedPos = transform.localPosition;
-        Vector2 canvasSize = canvasRect.sizeDelta;
-
-        clampedPos.x = Mathf.Clamp(clampedPos.x, -canvasSize.x / 2f, canvasSize.x / 2f);
-        clampedPos.y = Mathf.Clamp(clampedPos.y, -canvasSize.y / 2f, canvasSize.y / 2f);
+        // Clamp position within world bounds
+        Vector3 clampedPos = transform.position;
+        clampedPos.x = Mathf.Clamp(clampedPos.x, minX, maxX);
+        clampedPos.y = Mathf.Clamp(clampedPos.y, minY, maxY);
         clampedPos.z = 0f;
 
-        transform.localPosition = clampedPos;
+        transform.position = clampedPos;
     }
 }

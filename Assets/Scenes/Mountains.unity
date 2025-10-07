@@ -1912,11 +1912,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48d292d4ff4df44c7a2a290f2c597c47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MountainsBirdSpawner
-  spawnParent: {fileID: 0}
   startPosition: {x: -15, y: 0, z: 0}
   xSpacing: 2
   ySpacing: 2
-  birdScale: 15
+  birdScale: 0.5
+  parallaxSpeed: 3
+  verticalSpeed: 3
+  horizontalInputMultiplier: 0.3
+  flightArea: {fileID: 1174594699}
 --- !u!1 &1011665414
 GameObject:
   m_ObjectHideFlags: 0

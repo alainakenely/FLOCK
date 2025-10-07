@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 2205288788024861077}
   - component: {fileID: 2205288788024861076}
   - component: {fileID: -1496882044584313499}
-  - component: {fileID: 1372792842920768488}
   m_Layer: 0
   m_Name: B4_s3_0
   m_TagString: Bird
@@ -192,17 +191,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111e652924fc9416f995402177750a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollisionTest
---- !u!114 &1372792842920768488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2205288788024861064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa44996ab0334efb92e33c6e4680b25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FlyBehavior
-  verticalSpeed: 3
-  horizontalSpeed: 2
