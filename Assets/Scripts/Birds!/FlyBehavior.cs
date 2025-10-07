@@ -3,64 +3,47 @@ using UnityEngine;
 public class FlyBehavior : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float verticalSpeed = 3f;  // Speed of moving up/down
-    public float forwardSpeed = 2f;    // Forward movement speed when pressing D
-    
-    private Camera mainCamera;
-    private float camHeight;
-    private float camWidth;
+    public float verticalSpeed = 3f;
+    public float horizontalSpeed = 2f;
+
+    private RectTransform canvasRect;
 
     void Start()
     {
-        mainCamera = Camera.main;
-        camHeight = mainCamera.orthographicSize; // half-height of camera
-        camWidth = camHeight * mainCamera.aspect; // half-width of camera
+        // Automatically find the Canvas in the parent hierarchy
+        Canvas parentCanvas = GetComponentInParent<Canvas>();
+        if (parentCanvas != null)
+        {
+            canvasRect = parentCanvas.GetComponent<RectTransform>();
+        }
+        else
+        {
+            Debug.LogError("FlyBehavior: Could not find parent Canvas!");
+        }
     }
-
 
     void Update()
     {
+        if (canvasRect == null) return;
 
-        // Vertical movement (W = up, S = down)
-        float verticalInput = 0f;
+        // Get movement input
+        Vector3 move = Vector3.zero;
+        if (Input.GetKey(KeyCode.W)) move += Vector3.up;
+        if (Input.GetKey(KeyCode.S)) move += Vector3.down;
+        if (Input.GetKey(KeyCode.D)) move += Vector3.right;
+        if (Input.GetKey(KeyCode.A)) move += Vector3.left;
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            verticalInput = 1f; // move up
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            verticalInput = -1f; // move down
-        }
+        // Move the bird
+        transform.position += new Vector3(move.x * horizontalSpeed, move.y * verticalSpeed, 0f) * Time.deltaTime;
 
-        // Apply vertical movement
-        transform.Translate(Vector3.up * verticalInput * verticalSpeed * Time.deltaTime);
-        
-        // Forward movement when pressing D
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.Translate(Vector3.right * forwardSpeed * Time.deltaTime);
-        }
-        
-        // Forward movement when pressing D
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.Translate(Vector3.left * forwardSpeed * Time.deltaTime);
-        }
-        // --- Clamp position within camera view ---
-        Vector3 pos = transform.position;
-        Vector3 camPos = mainCamera.transform.position;
+        // Clamp position within canvas bounds
+        Vector3 clampedPos = transform.localPosition;
+        Vector2 canvasSize = canvasRect.sizeDelta;
 
-        float minX = camPos.x - camWidth;
-        float maxX = camPos.x + camWidth;
-        float minY = camPos.y - camHeight;
-        float maxY = camPos.y + camHeight;
+        clampedPos.x = Mathf.Clamp(clampedPos.x, -canvasSize.x / 2f, canvasSize.x / 2f);
+        clampedPos.y = Mathf.Clamp(clampedPos.y, -canvasSize.y / 2f, canvasSize.y / 2f);
+        clampedPos.z = 0f;
 
-        pos.x = Mathf.Clamp(pos.x, minX, maxX);
-        pos.y = Mathf.Clamp(pos.y, minY, maxY);
-
-        transform.position = pos;
-
-
+        transform.localPosition = clampedPos;
     }
 }

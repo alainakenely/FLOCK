@@ -3,16 +3,21 @@ using UnityEngine;
 
 public class RandomBirdSpawner : MonoBehaviour
 {
+    [Header("Spawner Settings")]
     public GameObject[] birdPrefabs;          // All possible bird prefabs
-    public RectTransform spawnPanel;          // The moving panel in the canvas
-    public GameObject addBirdPanel;           // Panel to activate on collision
     public float spawnInterval = 5f;          // Time between spawns
     public float birdScale = 0.5f;            // Scale factor for spawned birds
     public float xOffset = 1f;                // Extra distance outside the right edge
+    public GameObject addBirdPanel;           // Panel to activate on collision
+    public Canvas canvas;                     // ✅ Drag your World Space Canvas here in the Inspector
 
     private float timer;
     private List<GameObject> spawnedBirds = new List<GameObject>();
     private bool gamePaused = false;
+
+    // Optional: define bounds manually or reference a moving panel for Y limits
+    public float minY = -4f;
+    public float maxY = 4f;
 
     void Update()
     {
@@ -31,21 +36,23 @@ public class RandomBirdSpawner : MonoBehaviour
 
     void SpawnBird()
     {
-        if (birdPrefabs.Length == 0 || spawnPanel == null)
+        if (birdPrefabs.Length == 0)
+        {
+            Debug.LogWarning("birdPrefabs is empty!");
             return;
+        }
 
+        // Randomly pick a prefab
         GameObject birdPrefab = birdPrefabs[Random.Range(0, birdPrefabs.Length)];
 
-        Vector3[] corners = new Vector3[4];
-        spawnPanel.GetWorldCorners(corners);
+        // Calculate spawn position just outside the right of the screen
+        float x = Camera.main.transform.position.x + Camera.main.orthographicSize * Camera.main.aspect + xOffset;
+        float y = Random.Range(minY, maxY);
 
-        Vector3 bottomLeft = corners[0];
-        Vector3 topRight = corners[2];
-
-        float x = topRight.x + xOffset;                    // Just outside right edge
-        float y = Random.Range(bottomLeft.y, topRight.y);  // Random Y within panel
-
+        // Instantiate the bird
         GameObject bird = Instantiate(birdPrefab, new Vector3(x, y, 0f), Quaternion.identity);
+        
+
         bird.transform.localScale = Vector3.one * birdScale;
 
         // Add collision handler dynamically
@@ -53,15 +60,13 @@ public class RandomBirdSpawner : MonoBehaviour
         handler.spawner = this;
 
         spawnedBirds.Add(bird);
+
+        Debug.Log("Spawned bird: " + bird.name + " at position " + bird.transform.position);
     }
 
     void DestroyOffscreenBirds()
     {
-        if (spawnPanel == null) return;
-
-        Vector3[] corners = new Vector3[4];
-        spawnPanel.GetWorldCorners(corners);
-        float leftEdgeX = corners[0].x;
+        float leftEdgeX = Camera.main.transform.position.x - Camera.main.orthographicSize * Camera.main.aspect;
 
         for (int i = spawnedBirds.Count - 1; i >= 0; i--)
         {
@@ -78,7 +83,6 @@ public class RandomBirdSpawner : MonoBehaviour
         gamePaused = true;
         addBirdPanel.SetActive(true);
 
-        // Optionally store the bird for later snapping to the pyramid
         BirdCollisionHandler.currentBird = bird;
     }
 
@@ -86,8 +90,7 @@ public class RandomBirdSpawner : MonoBehaviour
     {
         if (addBird && BirdCollisionHandler.currentBird != null)
         {
-            // Snap bird to pyramid here (call your existing reposition logic)
-            // Example: BirdSelectionController.AddBirdToGrid(BirdCollisionHandler.currentBird);
+            // Snap bird to pyramid here
         }
 
         BirdCollisionHandler.currentBird = null;
@@ -96,7 +99,6 @@ public class RandomBirdSpawner : MonoBehaviour
     }
 }
 
-// Separate script to handle collisions
 public class BirdCollisionHandler : MonoBehaviour
 {
     public RandomBirdSpawner spawner;

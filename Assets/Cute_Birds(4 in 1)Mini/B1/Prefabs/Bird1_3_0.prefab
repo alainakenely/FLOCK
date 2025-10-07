@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1878884306286986624}
   - component: {fileID: 5932211887089022287}
   - component: {fileID: 2424568057884440906}
+  - component: {fileID: 6690618166508876940}
   m_Layer: 0
   m_Name: Bird1_3_0
   m_TagString: Bird
@@ -185,9 +186,23 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 5.77
+--- !u!114 &6690618166508876940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878884306286986637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa44996ab0334efb92e33c6e4680b25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlyBehavior
+  verticalSpeed: 3
+  horizontalSpeed: 2

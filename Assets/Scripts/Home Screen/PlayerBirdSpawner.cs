@@ -3,11 +3,12 @@ using System.Collections.Generic;
 
 public class PlayerBirdSpawner : MonoBehaviour
 {
-    public Transform spawnParent;      // Parent in the hierarchy for organization
-    public Vector3 startPosition = new Vector3(0f, 0f, 0f); // Bottom-left of the pyramid
-    public float xSpacing = 2f;        // Horizontal spacing between birds
-    public float ySpacing = 2f;        // Vertical spacing between rows
-    public float birdScale = 1f;       // Scale factor for birds
+    [Header("Spawner Settings")]
+    public Transform spawnParent;          // Optional parent in hierarchy
+    public Vector3 startPosition = Vector3.zero; // Bottom-left of the pyramid
+    public float xSpacing = 2f;            // Horizontal spacing between birds
+    public float ySpacing = 2f;            // Vertical spacing between rows
+    public float birdScale = 0.5f;         // Match RandomBirdSpawner scale
 
     void Start()
     {
@@ -21,33 +22,37 @@ public class PlayerBirdSpawner : MonoBehaviour
 
         for (int i = 0; i < selectedBirds.Count; i++)
         {
-            // Calculate position for pyramid/grid
+            // Calculate pyramid/grid position
             Vector3 spawnPos = GetSpawnPositionForNewBird(birdsInRow, birdsPlacedInRow, row);
 
-            // Instantiate bird prefab
-            GameObject bird = Instantiate(selectedBirds[i], spawnPos, Quaternion.identity, spawnParent);
+            // Instantiate bird without inheriting parent scale issues
+            GameObject bird = Instantiate(selectedBirds[i], spawnPos, Quaternion.identity);
             bird.name = selectedBirds[i].name;
 
-            // Force world z to 0 so collisions work
+            // Parent it manually if needed
+            if (spawnParent != null)
+            {
+                bird.transform.SetParent(spawnParent, false); // false = keep local position/scale
+            }
+
+            // Force correct scale and orientation
+            bird.transform.localScale = Vector3.one * birdScale; // uniform scale
+            Vector3 scale = bird.transform.localScale;
+            scale.x = Mathf.Abs(scale.x); // face right
+            bird.transform.localScale = scale;
+
+            // Ensure Z = 0 for collisions
             Vector3 worldPos = bird.transform.position;
             worldPos.z = 0f;
             bird.transform.position = worldPos;
 
-            // Adjust scale
-            bird.transform.localScale = Vector3.one * birdScale;
-
-            // Flip Y-axis
-            Vector3 localScale = bird.transform.localScale;
-            localScale.x *= -1; // flips the bird
-            bird.transform.localScale = localScale;
-
-            // ✅ Add FlyBehavior only for flock birds
+            // Add FlyBehavior if desired
             if (bird.GetComponent<FlyBehavior>() == null)
             {
                 bird.AddComponent<FlyBehavior>();
             }
 
-            // Update counters for pyramid placement
+            // Update pyramid placement counters
             birdsPlacedInRow++;
             if (birdsPlacedInRow >= birdsInRow)
             {
@@ -63,7 +68,7 @@ public class PlayerBirdSpawner : MonoBehaviour
         float xOffset = (birdsInRow - 1) * -0.5f * xSpacing + birdsPlacedInRow * xSpacing;
         float yOffset = row * ySpacing;
         Vector3 spawnPos = startPosition + new Vector3(xOffset, yOffset, 0f);
-        spawnPos.z = 0f; // ensure z is 0
+        spawnPos.z = 0f;
         return spawnPos;
     }
 }
