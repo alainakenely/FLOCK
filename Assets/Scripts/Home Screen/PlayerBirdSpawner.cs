@@ -13,7 +13,7 @@ public class PlayerBirdSpawner : MonoBehaviour
     public float parallaxSpeed = 2f;             // Speed synced with background
     public float verticalSpeed = 3f;             // Up/down motion
     public float horizontalInputMultiplier = 0.3f; // Scale for A/D left/right movement
-    public Canvas flightArea;                    // Assign your moving canvas here
+    public Canvas flightCanvas;                  // Assign your moving canvas here
 
     void Start()
     {
@@ -52,7 +52,7 @@ public class PlayerBirdSpawner : MonoBehaviour
             flight.parallaxSpeed = parallaxSpeed;
             flight.verticalSpeed = verticalSpeed;
             flight.horizontalInputMultiplier = horizontalInputMultiplier;
-            flight.flightCanvas = flightArea;
+            flight.flightCanvas = flightCanvas;
 
             birdsPlacedInRow++;
             if (birdsPlacedInRow >= birdsInRow)
@@ -86,32 +86,34 @@ public class PlayerBirdFlight : MonoBehaviour
         if (flightCanvas == null) return;
 
         RectTransform canvasRect = flightCanvas.GetComponent<RectTransform>();
-        Vector3 canvasPos = flightCanvas.transform.position;
-        Vector2 canvasSize = canvasRect.sizeDelta;
-
         Vector3 pos = transform.position;
 
-        // Constant forward motion with parallax
+        // Constant forward motion
         pos.x += parallaxSpeed * Time.deltaTime;
 
         // Keyboard input
-        float verticalInput = 0f;
-        if (Input.GetKey(KeyCode.W)) verticalInput = 1f;
-        if (Input.GetKey(KeyCode.S)) verticalInput = -1f;
-
-        float horizontalInput = 0f;
-        if (Input.GetKey(KeyCode.D)) horizontalInput = 1f;
-        if (Input.GetKey(KeyCode.A)) horizontalInput = -1f;
+        float verticalInput = Input.GetKey(KeyCode.W) ? 1f : (Input.GetKey(KeyCode.S) ? -1f : 0f);
+        float horizontalInput = Input.GetKey(KeyCode.D) ? 1f : (Input.GetKey(KeyCode.A) ? -1f : 0f);
 
         pos.x += horizontalInput * parallaxSpeed * horizontalInputMultiplier * Time.deltaTime;
         pos.y += verticalInput * verticalSpeed * Time.deltaTime;
 
-        // Clamp to canvas bounds
-        float halfWidth = canvasSize.x * 0.5f;
-        float halfHeight = canvasSize.y * 0.5f;
+        // Clamp inside canvas bounds (Screen Space - Camera)
+        Vector2 canvasSize = canvasRect.sizeDelta;
+        Camera cam = flightCanvas.worldCamera;
 
-        pos.x = Mathf.Clamp(pos.x, canvasPos.x - halfWidth, canvasPos.x + halfWidth);
-        pos.y = Mathf.Clamp(pos.y, canvasPos.y - halfHeight, canvasPos.y + halfHeight);
+        // Convert canvas size to world units
+        Vector3 bottomLeft = cam.ScreenToWorldPoint(new Vector3(0, 0, cam.nearClipPlane));
+        Vector3 topRight = cam.ScreenToWorldPoint(new Vector3(canvasSize.x, canvasSize.y, cam.nearClipPlane));
+
+        // Get bird half-size using SpriteRenderer
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        float halfWidth = sr != null ? sr.bounds.size.x / 2f : 0.5f;
+        float halfHeight = sr != null ? sr.bounds.size.y / 2f : 0.5f;
+
+        // Clamp to world coordinates of the canvas
+        pos.x = Mathf.Clamp(pos.x, bottomLeft.x + halfWidth, topRight.x - halfWidth);
+        pos.y = Mathf.Clamp(pos.y, bottomLeft.y + halfHeight, topRight.y - halfHeight);
 
         transform.position = pos;
     }

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5999396178547107706}
   - component: {fileID: 5999396178547107705}
   - component: {fileID: 5999396178547107709}
-  - component: {fileID: 8782472222784532135}
   - component: {fileID: 5879094257971968880}
   - component: {fileID: 5492184224989084383}
   m_Layer: 0
@@ -144,18 +143,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &8782472222784532135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5999396178547107704}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 111e652924fc9416f995402177750a72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CollisionTest
 --- !u!58 &5879094257971968880
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -206,3 +193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FlyBehavior
   verticalSpeed: 3
   horizontalSpeed: 2
+  minX: -8
+  maxX: 8
+  minY: -4.5
+  maxY: 4.5

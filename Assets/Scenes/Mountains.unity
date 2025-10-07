@@ -1893,13 +1893,10 @@ MonoBehaviour:
   - {fileID: 3636592943492213892, guid: 3c47428bc1ae05444b4ed0acdbaff38a, type: 3}
   - {fileID: 1878884306286986637, guid: 915e2aeabbc487940ad1ce4c875c96a2, type: 3}
   - {fileID: 5999396178547107704, guid: a9094ffaad80ea14da4331fb6d9a7e1e, type: 3}
-  spawnInterval: 15
+  spawnInterval: 5
   birdScale: 0.5
-  xOffset: 1
-  addBirdPanel: {fileID: 0}
-  canvas: {fileID: 0}
-  minY: -4
-  maxY: 4
+  xOffset: 5
+  canvas: {fileID: 1174594699}
 --- !u!114 &984586583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1919,7 +1916,7 @@ MonoBehaviour:
   parallaxSpeed: 3
   verticalSpeed: 3
   horizontalInputMultiplier: 0.3
-  flightArea: {fileID: 1174594699}
+  flightCanvas: {fileID: 1174594699}
 --- !u!1 &1011665414
 GameObject:
   m_ObjectHideFlags: 0

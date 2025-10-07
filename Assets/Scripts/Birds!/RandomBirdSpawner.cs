@@ -3,112 +3,58 @@ using UnityEngine;
 
 public class RandomBirdSpawner : MonoBehaviour
 {
-    [Header("Spawner Settings")]
-    public GameObject[] birdPrefabs;          // All possible bird prefabs
-    public float spawnInterval = 5f;          // Time between spawns
-    public float birdScale = 0.5f;            // Scale factor for spawned birds
-    public float xOffset = 1f;                // Extra distance outside the right edge
-    public GameObject addBirdPanel;           // Panel to activate on collision
-    public Canvas canvas;                     // ✅ Drag your World Space Canvas here in the Inspector
+    [Header("Spawner Settings")] 
+    public GameObject[] birdPrefabs;       // Bird prefabs to spawn
+    public float spawnInterval = 1f;       // Time between spawns
+    public float birdScale = 0.5f;         // Scale of spawned birds
+    public float xOffset = 1f;             // Extra distance outside the canvas right edge
+    public Canvas canvas;                  // World Space Canvas reference
 
     private float timer;
     private List<GameObject> spawnedBirds = new List<GameObject>();
     private bool gamePaused = false;
 
-    // Optional: define bounds manually or reference a moving panel for Y limits
-    public float minY = -4f;
-    public float maxY = 4f;
-
     void Update()
     {
-        if (!gamePaused)
-        {
-            timer += Time.deltaTime;
-            if (timer >= spawnInterval)
-            {
-                SpawnBird();
-                timer = 0f;
-            }
+        if (gamePaused) return;
 
-            DestroyOffscreenBirds();
+        timer += Time.deltaTime;
+        if (timer >= spawnInterval)
+        {
+            SpawnBird();
+            timer = 0f;
         }
+
+        // Temporarily disable destruction to see birds
+        //DestroyOffscreenBirds();
     }
 
     void SpawnBird()
     {
-        if (birdPrefabs.Length == 0)
-        {
-            Debug.LogWarning("birdPrefabs is empty!");
-            return;
-        }
+        if (birdPrefabs.Length == 0 || canvas == null) return;
 
-        // Randomly pick a prefab
-        GameObject birdPrefab = birdPrefabs[Random.Range(0, birdPrefabs.Length)];
+        GameObject prefab = birdPrefabs[Random.Range(0, birdPrefabs.Length)];
+        if (prefab == null) return;
 
-        // Calculate spawn position just outside the right of the screen
-        float x = Camera.main.transform.position.x + Camera.main.orthographicSize * Camera.main.aspect + xOffset;
-        float y = Random.Range(minY, maxY);
+        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
 
-        // Instantiate the bird
-        GameObject bird = Instantiate(birdPrefab, new Vector3(x, y, 0f), Quaternion.identity);
-        
+        // Recalculate world corners dynamically every spawn
+        Vector3[] corners = new Vector3[4];
+        canvasRect.GetWorldCorners(corners); // 0=BL, 1=TL, 2=TR, 3=BR
+        float rightEdgeX = corners[2].x;   // Top-right X
+        float bottomY = corners[0].y;
+        float topY = corners[1].y;
 
+        float x = rightEdgeX + xOffset;     // Dynamic right edge
+        float y = Random.Range(bottomY, topY);
+
+        GameObject bird = Instantiate(prefab, new Vector3(x, y, 0f), Quaternion.identity);
+        bird.name = prefab.name + "_Clone";
         bird.transform.localScale = Vector3.one * birdScale;
-
-        // Add collision handler dynamically
-        BirdCollisionHandler handler = bird.AddComponent<BirdCollisionHandler>();
-        handler.spawner = this;
+        bird.SetActive(true);
 
         spawnedBirds.Add(bird);
 
-        Debug.Log("Spawned bird: " + bird.name + " at position " + bird.transform.position);
-    }
-
-    void DestroyOffscreenBirds()
-    {
-        float leftEdgeX = Camera.main.transform.position.x - Camera.main.orthographicSize * Camera.main.aspect;
-
-        for (int i = spawnedBirds.Count - 1; i >= 0; i--)
-        {
-            if (spawnedBirds[i].transform.position.x < leftEdgeX)
-            {
-                Destroy(spawnedBirds[i]);
-                spawnedBirds.RemoveAt(i);
-            }
-        }
-    }
-
-    public void PauseGame(GameObject bird)
-    {
-        gamePaused = true;
-        addBirdPanel.SetActive(true);
-
-        BirdCollisionHandler.currentBird = bird;
-    }
-
-    public void ResumeGame(bool addBird)
-    {
-        if (addBird && BirdCollisionHandler.currentBird != null)
-        {
-            // Snap bird to pyramid here
-        }
-
-        BirdCollisionHandler.currentBird = null;
-        gamePaused = false;
-        addBirdPanel.SetActive(false);
-    }
-}
-
-public class BirdCollisionHandler : MonoBehaviour
-{
-    public RandomBirdSpawner spawner;
-    public static GameObject currentBird;
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Bird"))
-        {
-            spawner.PauseGame(this.gameObject);
-        }
+        Debug.Log("Spawned bird at X: " + x + ", Y: " + y);
     }
 }
