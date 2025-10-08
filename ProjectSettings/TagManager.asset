@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Bird
+  - PlayerBird
   layers:
   - Default
   - TransparentFX

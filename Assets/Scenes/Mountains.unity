@@ -1894,7 +1894,7 @@ MonoBehaviour:
   - {fileID: 1878884306286986637, guid: 915e2aeabbc487940ad1ce4c875c96a2, type: 3}
   - {fileID: 5999396178547107704, guid: a9094ffaad80ea14da4331fb6d9a7e1e, type: 3}
   spawnInterval: 5
-  birdScale: 0.5
+  birdScale: 0.4
   xOffset: 5
   canvas: {fileID: 1174594699}
 --- !u!114 &984586583
@@ -1912,7 +1912,7 @@ MonoBehaviour:
   startPosition: {x: -15, y: 0, z: 0}
   xSpacing: 2
   ySpacing: 2
-  birdScale: 0.5
+  birdScale: 0.4
   parallaxSpeed: 3
   verticalSpeed: 3
   horizontalInputMultiplier: 0.3
