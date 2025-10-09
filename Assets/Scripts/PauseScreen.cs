@@ -48,10 +48,8 @@ public class PauseMenu : MonoBehaviour
 
     public void QuitGame()
     {
-        Debug.Log("Quit!");
-        Application.Quit();
-
-        // If testing in editor:
-        // UnityEditor.EditorApplication.isPlaying = false;
+        Debug.Log("Returning to Home Screen...");
+        Time.timeScale = 1f; // resume time so next scene isn’t frozen
+        SceneManager.LoadScene("Home Screen"); // replace with your home scene’s exact name
     }
 }
