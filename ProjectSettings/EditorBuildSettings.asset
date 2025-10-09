@@ -9,11 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Start Screen.unity
     guid: 1f17332b425cf440d83e765565cba47f
   - enabled: 1
-    path: Assets/Scenes/Mountains.unity
-    guid: 23494ab37c1a04a2a871d9096a61ce28
-  - enabled: 1
     path: Assets/Scenes/Home Screen.unity
     guid: 23655b3799a1b4f5293744e5e4da9c20
+  - enabled: 1
+    path: Assets/Scenes/Mountains.unity
+    guid: 23494ab37c1a04a2a871d9096a61ce28
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

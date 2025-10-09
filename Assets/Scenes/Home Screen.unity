@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 248439705}
   - component: {fileID: 248439707}
   - component: {fileID: 248439706}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Choose (text)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,14 +146,14 @@ RectTransform:
   m_GameObject: {fileID: 248439704}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6.8613124, y: 6.8613124, z: 6.8613124}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2.99, y: 2.99, z: 2.99}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1842906618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 630, y: 654}
+  m_AnchoredPosition: {x: 429, y: 207}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &248439706
@@ -211,13 +211,13 @@ GameObject:
   - component: {fileID: 294019668}
   - component: {fileID: 294019667}
   - component: {fileID: 294019670}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: RedBird
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &294019666
 RectTransform:
   m_ObjectHideFlags: 0
@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 566014838}
   - component: {fileID: 566014837}
   - component: {fileID: 566014840}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: GreenBird
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -361,14 +361,14 @@ RectTransform:
   m_GameObject: {fileID: 566014835}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.2, y: 2.2, z: 2.2}
+  m_LocalScale: {x: 1.06, y: 1.06, z: 1.06}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1842906618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -677, y: 598}
+  m_AnchoredPosition: {x: -480, y: 225}
   m_SizeDelta: {x: 159.31, y: 144.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &566014837
@@ -478,7 +478,7 @@ GameObject:
   - component: {fileID: 694912913}
   - component: {fileID: 694912912}
   - component: {fileID: 694912911}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Start Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -494,14 +494,14 @@ RectTransform:
   m_GameObject: {fileID: 694912908}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -313.6394}
-  m_LocalScale: {x: 4.7725, y: 6.0849376, z: 6.0849376}
+  m_LocalScale: {x: 2.28, y: 2.907, z: 2.907}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1842906618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 601, y: 444}
+  m_AnchoredPosition: {x: 419, y: 120}
   m_SizeDelta: {x: 135.3, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &694912911
@@ -610,7 +610,7 @@ GameObject:
   - component: {fileID: 763931436}
   - component: {fileID: 763931435}
   - component: {fileID: 763931434}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -646,12 +646,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1.3
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -666,7 +666,7 @@ Canvas:
   m_GameObject: {fileID: 763931433}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1960527948}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -675,7 +675,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -711,7 +711,7 @@ GameObject:
   - component: {fileID: 852468905}
   - component: {fileID: 852468907}
   - component: {fileID: 852468906}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Tree Branch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -727,14 +727,14 @@ RectTransform:
   m_GameObject: {fileID: 852468904}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 18.217382, y: 18.217382, z: 18.217382}
+  m_LocalScale: {x: 7.5, y: 7.5, z: 7.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1842906618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1372, y: 247}
+  m_AnchoredPosition: {x: -752, y: 87}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &852468906
@@ -786,7 +786,7 @@ GameObject:
   - component: {fileID: 884305448}
   - component: {fileID: 884305450}
   - component: {fileID: 884305449}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Panel - SelectionArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -802,14 +802,14 @@ RectTransform:
   m_GameObject: {fileID: 884305447}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -313.6394}
-  m_LocalScale: {x: 1.4256443, y: 0.59841865, z: 0.59841865}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.20987657, z: 0.20987657}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1842906618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 853.7422, y: -993.1874}
+  m_AnchoredPosition: {x: 416, y: -279}
   m_SizeDelta: {x: -2594.7495, y: -1921.8999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &884305449
@@ -860,7 +860,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1076521771}
   - component: {fileID: 1076521772}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: BirdButtonManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -994,7 +994,7 @@ GameObject:
   - component: {fileID: 1842906618}
   - component: {fileID: 1842906620}
   - component: {fileID: 1842906619}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1009,8 +1009,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1842906617}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 90}
-  m_LocalScale: {x: 0.34, y: 0.28, z: 0.26666668}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 852468905}
@@ -1022,10 +1022,10 @@ RectTransform:
   - {fileID: 1076521771}
   m_Father: {fileID: 763931437}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0032532, y: 0.0018033}
-  m_SizeDelta: {x: 3877.8, y: 2648.3}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1842906619
 MonoBehaviour:
@@ -1198,7 +1198,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 763931437}
   m_Father: {fileID: 0}
