@@ -191,3 +191,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c59f167e2a95495ab5fee552f2d3f72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollisionTest
+  pyramidFoundation: {fileID: 0}
