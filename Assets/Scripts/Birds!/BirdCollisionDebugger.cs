@@ -47,5 +47,12 @@ public class CollisionTest : MonoBehaviour
             else
                 Debug.LogWarning("⚠️ AddBirdPanel reference missing!");
         }
+        
+        AddBirdButton button = FindFirstObjectByType<AddBirdButton>();
+        if (button != null)
+        {
+            button.SetCollidedBird(other.gameObject);
+            Debug.Log("📦 Stored " + other.name + " as the collided bird for AddBirdButton");
+        }
     }
 }

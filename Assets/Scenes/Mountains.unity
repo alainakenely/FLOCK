@@ -654,7 +654,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d2f0931e89445d8ab3983fd2c1c87f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AddBirdPanel
-  flockController: {fileID: 984586584}
 --- !u!1 &386112967
 GameObject:
   m_ObjectHideFlags: 0
@@ -2296,11 +2295,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 984586578}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 650768b2e29664222afa5b60352cd448, type: 3}
+  m_Script: {fileID: 11500000, guid: 89979f6fe081a4ab8806dbaf4b1c93a3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FlockController
-  playerBird: {fileID: 2205288788024861079, guid: 9242daabe537572499ae45c49037a66a, type: 3}
-  collectedBirds: []
+  m_EditorClassIdentifier: Assembly-CSharp::AddBirdButton
 --- !u!1 &1011665414
 GameObject:
   m_ObjectHideFlags: 0
@@ -2592,7 +2589,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1020901232}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 984586584}
+        m_TargetAssemblyTypeName: AddBirdButton, Assembly-CSharp
+        m_MethodName: OnAddBirdButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1020901232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2972,7 +2981,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c59f167e2a95495ab5fee552f2d3f72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Birds_.BirdCollision
-  addBirdPanel: {fileID: 0}
 --- !u!1 &1234074324
 GameObject:
   m_ObjectHideFlags: 0
