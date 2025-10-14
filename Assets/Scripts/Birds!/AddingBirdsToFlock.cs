@@ -28,6 +28,18 @@ public class AddBirdButton : MonoBehaviour
             var ai = collidedBird.GetComponent<MonoBehaviour>();
             if (ai != null && ai.GetType().Name.Contains("AI"))
                 ai.enabled = false;
+
+            // 🔹 Add to the flock list via FlockManager
+            FlockManager flockManager = FindFirstObjectByType<FlockManager>();
+            if (flockManager != null)
+            {
+                flockManager.AddToFlock(collidedBird);
+                Debug.Log("✅ " + collidedBird.name + " added to flock!");
+            }
+            else
+            {
+                Debug.LogWarning("⚠️ No FlockManager found in scene!");
+            }
         }
         else
         {

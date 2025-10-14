@@ -52,7 +52,7 @@ public class CollisionTest : MonoBehaviour
         if (button != null)
         {
             button.SetCollidedBird(other.gameObject);
-            Debug.Log("📦 Stored " + other.name + " as the collided bird for AddBirdButton");
+            Debug.Log("📦 Stored " + other.name + " as the new bird for AddBirdButton");
         }
     }
 }
