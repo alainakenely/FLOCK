@@ -2312,6 +2312,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlockManager
   flockBirds: []
+  playerBird: {fileID: 2205288788024861079, guid: 9242daabe537572499ae45c49037a66a, type: 3}
+  xSpacing: 1.5
+  ySpacing: 1
+  flightCanvas: {fileID: 1174594699}
 --- !u!1 &1011665414
 GameObject:
   m_ObjectHideFlags: 0
