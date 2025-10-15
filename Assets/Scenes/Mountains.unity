@@ -2207,6 +2207,7 @@ GameObject:
   - component: {fileID: 984586583}
   - component: {fileID: 984586584}
   - component: {fileID: 984586585}
+  - component: {fileID: 984586586}
   m_Layer: 5
   m_Name: ' Scripts'
   m_TagString: Untagged
@@ -2312,10 +2313,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlockManager
   flockBirds: []
-  playerBird: {fileID: 2205288788024861079, guid: 9242daabe537572499ae45c49037a66a, type: 3}
-  xSpacing: 1.5
-  ySpacing: 1
   flightCanvas: {fileID: 1174594699}
+  playerBird: {fileID: 2205288788024861064, guid: 9242daabe537572499ae45c49037a66a, type: 3}
+  formationOffset: {x: 1, y: 0.5}
+--- !u!114 &984586586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984586578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c74f61487f1f4b55945d3a42edb63fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FollowerFlight
+  mainBird: {fileID: 0}
+  formationOffset: {x: 0, y: 0, z: 0}
+  parallaxSpeed: 3
+  verticalSpeed: 3
+  horizontalInputMultiplier: 0.3
+  flightCanvas: {fileID: 0}
 --- !u!1 &1011665414
 GameObject:
   m_ObjectHideFlags: 0

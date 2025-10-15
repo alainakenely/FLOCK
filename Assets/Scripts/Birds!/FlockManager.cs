@@ -4,10 +4,46 @@ using UnityEngine;
 public class FlockManager : MonoBehaviour
 {
     public List<GameObject> flockBirds = new List<GameObject>();
-    public Transform playerBird; // Assign the main player bird in inspector
-    public float xSpacing = 1.5f; // Horizontal spacing for V-formation
-    public float ySpacing = 1f;   // Vertical spacing for V-formation
-    public Canvas flightCanvas;    // Assign your canvas to allow bounds clamping
+    public Canvas flightCanvas; // assign in inspector
+    public GameObject playerBird; // assign your main bird here
+
+    [Header("Formation Settings")]
+    public Vector2 formationOffset = new Vector2(1f, 0.5f); // spacing for V formation
+    public float followSmoothness = 5f; // how quickly birds catch up to formation
+
+    void Update()
+    {
+        if (playerBird == null || flockBirds.Count == 0)
+            return;
+
+        // Reference the player’s current position (and movement from FlyBehavior)
+        Vector3 playerPos = playerBird.transform.position;
+
+        // Make each bird hold a position relative to the player (V-shape)
+        for (int i = 0; i < flockBirds.Count; i++)
+        {
+            GameObject bird = flockBirds[i];
+            if (bird == null) continue;
+
+            // Alternate sides for V shape
+            int side = (i % 2 == 0) ? 1 : -1;
+            int row = i / 2;
+
+            // Offset each bird relative to player
+            Vector3 targetPos = playerPos + new Vector3(
+                side * formationOffset.x * (row + 1),
+                -formationOffset.y * (row + 1),
+                0f
+            );
+
+            // Smoothly move bird toward its formation spot
+            bird.transform.position = Vector3.Lerp(
+                bird.transform.position,
+                targetPos,
+                Time.deltaTime * followSmoothness
+            );
+        }
+    }
 
     public void AddToFlock(GameObject newBird)
     {
@@ -15,33 +51,18 @@ public class FlockManager : MonoBehaviour
         {
             flockBirds.Add(newBird);
 
-            int index = flockBirds.Count; // 1-based for formation calculation
-            Vector3 offset;
-
-            // Staggered V formation (alternate top/bottom)
-            if (index % 2 == 0)
-                offset = new Vector3(-xSpacing * (index / 2), -ySpacing * (index / 2), 0f); // bottom-left
-            else
-                offset = new Vector3(-xSpacing * ((index + 1) / 2), ySpacing * ((index + 1) / 2), 0f); // top-left
-
             FlyBehavior fly = newBird.GetComponent<FlyBehavior>();
-            if (fly != null)
-            {
-                fly.playerLeader = playerBird;
-                fly.formationOffset = offset;
-                fly.isLeader = false;
-                fly.flightCanvas = flightCanvas;
+            if (fly == null)
+                fly = newBird.AddComponent<FlyBehavior>();
 
-                // Snap immediately to formation position
-                newBird.transform.position = playerBird.position + offset;
+            fly.flightCanvas = flightCanvas;
 
-                // Flip localScale.x to face right
-                Vector3 scale = newBird.transform.localScale;
-                scale.x = -Mathf.Abs(scale.x); 
-                newBird.transform.localScale = scale;
-            }
+            // MAKES BIRD FACE RIGHT DO NOT DELETE
+            Vector3 scale = newBird.transform.localScale;
+            scale.x = -Mathf.Abs(scale.x);
+            newBird.transform.localScale = scale;
 
-            Debug.Log("🪶 Added " + newBird.name + " to flock at offset " + offset);
+            Debug.Log("🪶 Added " + newBird.name + " to flock.");
         }
     }
 }
