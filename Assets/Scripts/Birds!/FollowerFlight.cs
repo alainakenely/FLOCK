@@ -1,45 +1,50 @@
 using UnityEngine;
 
-public class FollowerFlight : MonoBehaviour
+using UnityEngine;
+
+public class FollowerFlightKeyboard : MonoBehaviour
 {
-    [HideInInspector] public Transform mainBird;
-    [HideInInspector] public Vector3 formationOffset;
-    [HideInInspector] public float parallaxSpeed = 3f;
-    [HideInInspector] public float verticalSpeed = 3f;
-    [HideInInspector] public float horizontalInputMultiplier = 0.3f;
-    [HideInInspector] public Canvas flightCanvas;
+    public Transform leader;              // <--- add this
+    public Canvas flightCanvas;
+    public float parallaxSpeed = 3f;
+    public float verticalSpeed = 3f;
+    public float horizontalSpeedMultiplier = 0.3f;
+
+    [HideInInspector] public Vector3 formationOffset = Vector3.zero;
+    private bool offsetApplied = false;
 
     void Update()
     {
-        if (mainBird == null || flightCanvas == null) return;
+        if (flightCanvas == null) return;
 
-        RectTransform canvasRect = flightCanvas.GetComponent<RectTransform>();
-        Camera cam = flightCanvas.worldCamera;
+        Vector3 pos = transform.position;
 
-        Vector3 pos = mainBird.position + formationOffset;
+        if (!offsetApplied)
+        {
+            pos += formationOffset;
+            offsetApplied = true;
+        }
 
-        // Apply keyboard input delta exactly like the main bird
         float verticalInput = Input.GetKey(KeyCode.W) ? 1f : Input.GetKey(KeyCode.S) ? -1f : 0f;
         float horizontalInput = Input.GetKey(KeyCode.D) ? 1f : Input.GetKey(KeyCode.A) ? -1f : 0f;
 
-        pos.x += horizontalInput * parallaxSpeed * horizontalInputMultiplier * Time.deltaTime;
+        pos.x += parallaxSpeed * Time.deltaTime + horizontalInput * parallaxSpeed * horizontalSpeedMultiplier * Time.deltaTime;
         pos.y += verticalInput * verticalSpeed * Time.deltaTime;
 
-        // Clamp inside canvas
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        float halfWidth = sr != null ? sr.bounds.size.x / 2f : 0.5f;
-        float halfHeight = sr != null ? sr.bounds.size.y / 2f : 0.5f;
+        if (leader != null)
+        {
+            pos += formationOffset; // optional, keeps V-formation relative to leader
+        }
 
-        Vector3 bottomLeft = cam.ScreenToWorldPoint(new Vector3(0, 0, cam.nearClipPlane));
-        Vector3 topRight = cam.ScreenToWorldPoint(new Vector3(canvasRect.sizeDelta.x, canvasRect.sizeDelta.y, cam.nearClipPlane));
-
-        pos.x = Mathf.Clamp(pos.x, bottomLeft.x + halfWidth, topRight.x - halfWidth);
-        pos.y = Mathf.Clamp(pos.y, bottomLeft.y + halfHeight, topRight.y - halfHeight);
+        Camera cam = flightCanvas.worldCamera != null ? flightCanvas.worldCamera : Camera.main;
+        Vector3 viewport = cam.WorldToViewportPoint(pos);
+        viewport.x = Mathf.Clamp01(viewport.x);
+        viewport.y = Mathf.Clamp01(viewport.y);
+        pos = cam.ViewportToWorldPoint(viewport);
         pos.z = 0f;
 
         transform.position = pos;
 
-        // MAKES BIRD FACE RIGHT DO NOT DELETE
         Vector3 scale = transform.localScale;
         scale.x = -Mathf.Abs(scale.x);
         transform.localScale = scale;

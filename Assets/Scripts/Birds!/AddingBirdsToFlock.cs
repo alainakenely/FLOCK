@@ -11,37 +11,37 @@ public class AddBirdButton : MonoBehaviour
 
     public void OnAddBirdButtonClicked()
     {
-        if (collidedBird != null)
+        if (collidedBird == null)
         {
-            Debug.Log("🕊️ Add Bird button clicked — " + collidedBird.name + " is now controllable!");
+            Debug.LogWarning("⚠️ No collided bird assigned to AddBirdButton!");
+            return;
+        }
 
-            // Change the tag so it behaves like the player bird
-            collidedBird.tag = "PlayerBird";
+        Debug.Log("🕊️ Add Bird button clicked — " + collidedBird.name + " is now controllable!");
 
-            // Add the FlyBehavior script if not already present
-            FlyBehavior fly = collidedBird.GetComponent<FlyBehavior>();
-            if (fly == null)
-                fly = collidedBird.AddComponent<FlyBehavior>();
+        // Change tag so it behaves like the player bird
+        collidedBird.tag = "PlayerBird";
 
-            // Optional: disable any AI script the bird had
-            var ai = collidedBird.GetComponent<MonoBehaviour>();
-            if (ai != null && ai.GetType().Name.Contains("AI"))
-                ai.enabled = false;
+        // Disable any random movement AI (if it exists)
+        var ai = collidedBird.GetComponent<MonoBehaviour>();
+        if (ai != null && ai.GetType().Name.Contains("AI"))
+            ai.enabled = false;
 
-            // Add to flock via FlockManager
-            FlockManager flockManager = FindFirstObjectByType<FlockManager>();
-            if (flockManager != null)
-            {
-                flockManager.AddToFlock(collidedBird);
-            }
-            else
-            {
-                Debug.LogWarning("⚠️ No FlockManager found in scene!");
-            }
+        // Add FollowerFlightV3 if not present
+        var follower = collidedBird.GetComponent<FollowerFlightKeyboard>();
+        if (follower == null)
+            follower = collidedBird.AddComponent<FollowerFlightKeyboard>();
+
+        // Reference the player bird and canvas via FlockManager
+        FlockManager flockManager = FindFirstObjectByType<FlockManager>();
+        if (flockManager != null)
+        {
+            // The flock manager handles leader assignment and formation offsets
+            flockManager.AddToFlock(collidedBird);
         }
         else
         {
-            Debug.LogWarning("⚠️ No collided bird assigned to AddBirdButton!");
+            Debug.LogWarning("⚠️ No FlockManager found in scene!");
         }
     }
 }
