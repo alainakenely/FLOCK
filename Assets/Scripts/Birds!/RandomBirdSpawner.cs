@@ -5,7 +5,7 @@ public class RandomBirdSpawner : MonoBehaviour
 {
     [Header("Spawner Settings")] 
     public GameObject[] birdPrefabs;       // Bird prefabs to spawn
-    public float spawnInterval = 1f;       // Time between spawns
+    public float spawnInterval = .5f;       // Time between spawns
     public float birdScale = 0.5f;         // Scale of spawned birds
     public float xOffset = 1f;             // Extra distance outside the canvas right edge
     public Canvas canvas;                  // World Space Canvas reference

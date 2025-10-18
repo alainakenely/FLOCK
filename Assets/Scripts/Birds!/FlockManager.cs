@@ -4,17 +4,20 @@ using System.Collections.Generic;
 public class FlockManager : MonoBehaviour
 {
     [Header("Flock Setup")]
-    public Canvas flightCanvas;         // Assign your canvas here
-    public GameObject playerBird;       // Assign your main bird
+    public Canvas flightCanvas;
+    public GameObject playerBird;
     public float parallaxSpeed = 3f;
+
+    [Header("Formation Controls")]
     public Vector2 formationOffset = new Vector2(1f, 0.5f);
-    public float followLerp = 8f;       // Optional smoothing
+    [Tooltip("Controls how quickly each row steps back")]
+    public float rowSpacingMultiplier = 0.75f; // smaller = tighter rows
+    [Tooltip("Starting number of birds in the first row (then increases each row)")]
+    public int startingBirdsPerRow = 2;
+    public float followLerp = 8f;
 
     [HideInInspector] public List<GameObject> flockBirds = new List<GameObject>();
 
-    /// <summary>
-    /// Adds an existing bird GameObject to the flock, sets formation, and configures keyboard follower.
-    /// </summary>
     public void AddToFlock(GameObject newBird)
     {
         if (newBird == null || flockBirds.Contains(newBird))
@@ -22,10 +25,10 @@ public class FlockManager : MonoBehaviour
 
         flockBirds.Add(newBird);
 
-        // Determine leader for this bird: first bird follows player, others follow previous in flock
-        Transform leaderTransform = (flockBirds.Count == 1) ? playerBird.transform : flockBirds[flockBirds.Count - 2].transform;
+        Transform leaderTransform = (flockBirds.Count == 1)
+            ? playerBird.transform
+            : flockBirds[flockBirds.Count - 2].transform;
 
-        // Add or get FollowerFlightKeyboard component
         FollowerFlightKeyboard follower = newBird.GetComponent<FollowerFlightKeyboard>();
         if (follower == null)
             follower = newBird.AddComponent<FollowerFlightKeyboard>();
@@ -33,13 +36,32 @@ public class FlockManager : MonoBehaviour
         follower.flightCanvas = flightCanvas;
         follower.parallaxSpeed = parallaxSpeed;
 
-        // Compute V-formation offset
-        int index = flockBirds.Count;
-        int side = (index % 2 == 0) ? 1 : -1;
-        int row = index / 2;
+        int index = flockBirds.Count - 1;
+
+        // Figure out which row this bird belongs to
+        int row = 0;
+        int birdsInPreviousRows = 0;
+        int birdsInThisRow = startingBirdsPerRow;
+
+        while (index >= birdsInPreviousRows + birdsInThisRow)
+        {
+            birdsInPreviousRows += birdsInThisRow;
+            row++;
+            birdsInThisRow++;
+        }
+
+        int positionInRow = index - birdsInPreviousRows;
+
+        // alternate left/right based on position in row
+        int side = (positionInRow % 2 == 0) ? 1 : -1;
+
+        // horizontal offset (spread the row symmetrically)
+        float horizontalOffset = (positionInRow - (birdsInThisRow - 1) / 2f) * formationOffset.x;
+
+        // assign final position offset for this bird
         follower.formationOffset = new Vector3(
-            -formationOffset.x * (row + 1),
-            side * formationOffset.y * (row + 1),
+            -formationOffset.x * (row * rowSpacingMultiplier + 1),
+            horizontalOffset,
             0f
         );
 
@@ -48,6 +70,6 @@ public class FlockManager : MonoBehaviour
         scale.x = -Mathf.Abs(scale.x);
         newBird.transform.localScale = scale;
 
-        Debug.Log($"🪶 Added {newBird.name} to flock. Leader: {leaderTransform.name}");
+        Debug.Log($"🪶 Added {newBird.name} | Row {row + 1} ({birdsInThisRow} birds) | PosInRow {positionInRow}");
     }
 }
