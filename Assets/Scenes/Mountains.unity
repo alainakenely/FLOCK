@@ -2208,6 +2208,7 @@ GameObject:
   - component: {fileID: 984586584}
   - component: {fileID: 984586585}
   - component: {fileID: 984586586}
+  - component: {fileID: 984586587}
   m_Layer: 5
   m_Name: ' Scripts'
   m_TagString: Untagged
@@ -2261,7 +2262,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RandomBirdSpawner
   birdPrefabs:
-  - {fileID: 3636592943492213892, guid: 3c47428bc1ae05444b4ed0acdbaff38a, type: 3}
   - {fileID: 1878884306286986637, guid: 915e2aeabbc487940ad1ce4c875c96a2, type: 3}
   - {fileID: 5999396178547107704, guid: a9094ffaad80ea14da4331fb6d9a7e1e, type: 3}
   spawnInterval: 8.7
@@ -2338,6 +2338,20 @@ MonoBehaviour:
   verticalSpeed: 3
   horizontalSpeedMultiplier: 0.3
   formationOffset: {x: 4.42, y: 4.1, z: 0}
+--- !u!114 &984586587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984586578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50f7530b8ee314122b1ff88b647b95f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReturnToHome
+  homeSceneName: Home Screen
+  returnDelay: 30
 --- !u!1 &1011665414
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5999396178547107705}
   - component: {fileID: 5999396178547107709}
   - component: {fileID: 5879094257971968880}
+  - component: {fileID: 6547149921802336758}
   m_Layer: 0
   m_Name: Bird1_1_0
   m_TagString: Bird
@@ -178,3 +179,16 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 5.77
+--- !u!114 &6547149921802336758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5999396178547107704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f585d437c719044e0b4f22c9d53918ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BirdPrefabMarker
+  prefabReference: {fileID: 5999396178547107704}
