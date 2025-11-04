@@ -7,7 +7,17 @@ public class BirdPanelMarker : MonoBehaviour
 
     private void Start()
     {
-        // Start inactive
-        gameObject.SetActive(false);
+        RefreshPanel(); // check unlock status on load
+    }
+
+    public void RefreshPanel()
+    {
+        if (prefabReference == null) return;
+
+        bool unlocked = RuntimeBirdProgress.IsUnlocked(prefabReference.name);
+        gameObject.SetActive(unlocked);
+
+        if (unlocked)
+            Debug.Log($"✅ Panel activated: {prefabReference.name}");
     }
 }

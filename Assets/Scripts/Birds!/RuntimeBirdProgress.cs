@@ -9,14 +9,17 @@ public static class RuntimeBirdProgress
 {
     private static HashSet<string> unlockedBirds = new HashSet<string>();
 
+    // Store bird by prefab name
     public static void UnlockBird(string prefabName)
     {
+        prefabName = prefabName.Replace("_Clone", "").Trim(); // strip instance suffix
         unlockedBirds.Add(prefabName);
         Debug.Log($"💾 Unlocked bird at runtime: {prefabName}");
     }
 
     public static bool IsUnlocked(string prefabName)
     {
+        prefabName = prefabName.Replace("_Clone", "").Trim();
         return unlockedBirds.Contains(prefabName);
     }
 
