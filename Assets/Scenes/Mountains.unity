@@ -2265,7 +2265,7 @@ MonoBehaviour:
   - {fileID: 1878884306286986637, guid: 915e2aeabbc487940ad1ce4c875c96a2, type: 3}
   - {fileID: 5999396178547107704, guid: a9094ffaad80ea14da4331fb6d9a7e1e, type: 3}
   spawnInterval: 8.7
-  birdScale: 0.4
+  birdScale: 0.2
   xOffset: 5
   canvas: {fileID: 1174594699}
 --- !u!114 &984586583
@@ -2283,7 +2283,7 @@ MonoBehaviour:
   startPosition: {x: -15, y: 0, z: 0}
   xSpacing: 2
   ySpacing: 2
-  birdScale: 0.4
+  birdScale: 0.2
   parallaxSpeed: 3
   verticalSpeed: 3
   horizontalInputMultiplier: 0.3
@@ -2315,9 +2315,6 @@ MonoBehaviour:
   flightCanvas: {fileID: 1174594699}
   playerBird: {fileID: 2205288788024861064, guid: 9242daabe537572499ae45c49037a66a, type: 3}
   parallaxSpeed: 3
-  formationOffset: {x: 6.71, y: 0.83}
-  rowSpacingMultiplier: 0.49
-  startingBirdsPerRow: 2
   followLerp: 8
   flockBirds: []
 --- !u!114 &984586586
@@ -2351,7 +2348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReturnToHome
   homeSceneName: Home Screen
-  returnDelay: 30
+  returnDelay: 100
 --- !u!1 &1011665414
 GameObject:
   m_ObjectHideFlags: 0
