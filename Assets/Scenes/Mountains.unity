@@ -2209,6 +2209,7 @@ GameObject:
   - component: {fileID: 984586585}
   - component: {fileID: 984586586}
   - component: {fileID: 984586587}
+  - component: {fileID: 984586588}
   m_Layer: 5
   m_Name: ' Scripts'
   m_TagString: Untagged
@@ -2315,6 +2316,9 @@ MonoBehaviour:
   flightCanvas: {fileID: 1174594699}
   playerBird: {fileID: 2205288788024861064, guid: 9242daabe537572499ae45c49037a66a, type: 3}
   parallaxSpeed: 3
+  formationOffset: {x: 1, y: 0.5}
+  rowSpacingMultiplier: 0.75
+  startingBirdsPerRow: 2
   followLerp: 8
   flockBirds: []
 --- !u!114 &984586586
@@ -2349,6 +2353,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ReturnToHome
   homeSceneName: Home Screen
   returnDelay: 100
+--- !u!114 &984586588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984586578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15e71ca3f414941faa6825509689f1f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstaclePrefabs
+  obstacleSprites:
+  - {fileID: -1646522822928393028, guid: ef69f1357ff4745acbfa9ea72eab7501, type: 3}
+  spawnInterval: 7.64
+  canvas: {fileID: 1174594699}
+  xOffset: 1
+  obstacleScale: 1
 --- !u!1 &1011665414
 GameObject:
   m_ObjectHideFlags: 0
