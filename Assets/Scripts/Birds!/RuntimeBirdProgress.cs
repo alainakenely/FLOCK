@@ -15,7 +15,9 @@ public static class RuntimeBirdProgress
         prefabName = prefabName.Replace("_Clone", "").Trim(); // strip instance suffix
         unlockedBirds.Add(prefabName);
         Debug.Log($"💾 Unlocked bird at runtime: {prefabName}");
+        CheckForParallaxPause(prefabName);
     }
+    
 
     public static bool IsUnlocked(string prefabName)
     {
@@ -27,5 +29,14 @@ public static class RuntimeBirdProgress
     {
         unlockedBirds.Clear();
         Debug.Log("🧹 Runtime bird progress reset");
+    }
+    // --- NEW CODE BELOW ---
+    private static void CheckForParallaxPause(string prefabName)
+    {
+        if (IsUnlocked("Bird1_3_0") && IsUnlocked("Bird1_1_0"))
+        {
+            Debug.Log("🕊️ Both target birds unlocked — scheduling parallax pause...");
+            ParallaxPauseTrigger.Instance?.TriggerPause();
+        }
     }
 }
