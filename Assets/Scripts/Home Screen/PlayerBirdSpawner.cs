@@ -111,10 +111,7 @@ public class PlayerBirdFlight : MonoBehaviour
         float halfWidth = sr != null ? sr.bounds.size.x / 2f : 0.5f;
         float halfHeight = sr != null ? sr.bounds.size.y / 2f : 0.5f;
 
-        // Clamp to world coordinates of the canvas
-        pos.x = Mathf.Clamp(pos.x, bottomLeft.x + halfWidth, topRight.x - halfWidth);
-        pos.y = Mathf.Clamp(pos.y, bottomLeft.y + halfHeight, topRight.y - halfHeight);
-
+        
         transform.position = pos;
     }
 }
