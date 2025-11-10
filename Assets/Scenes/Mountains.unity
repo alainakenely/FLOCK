@@ -2974,10 +2974,12 @@ MonoBehaviour:
   birdPrefabs:
   - {fileID: 1878884306286986637, guid: 915e2aeabbc487940ad1ce4c875c96a2, type: 3}
   - {fileID: 5999396178547107704, guid: a9094ffaad80ea14da4331fb6d9a7e1e, type: 3}
-  spawnInterval: 8.7
+  spawnInterval: 21.5
   birdScale: 0.2
   xOffset: 5
   canvas: {fileID: 1174594699}
+  delayedBirdName: Bird1_3_0
+  delayTime: 20
 --- !u!114 &984586583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3060,8 +3062,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50f7530b8ee314122b1ff88b647b95f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReturnToHome
-  homeSceneName: Home Screen
-  returnDelay: 100
 --- !u!114 &984586588
 MonoBehaviour:
   m_ObjectHideFlags: 0
