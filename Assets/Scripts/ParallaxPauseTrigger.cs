@@ -8,6 +8,9 @@ public class ParallaxPauseTrigger : MonoBehaviour
     [Tooltip("Reference your ParallaxBackground_0 script here.")]
     public ParallaxBackground_0 parallaxScript;
 
+    [Tooltip("Reference your ObstacleSpawner here.")]
+    public ObstacleSpawner obstacleSpawner;
+
     [Tooltip("Delay in seconds before pausing the parallax.")]
     public float delayBeforePause = 3f;
 
@@ -29,13 +32,16 @@ public class ParallaxPauseTrigger : MonoBehaviour
 
         if (parallaxScript != null)
         {
-            // Option 1: stop movement but keep parallax active
+            // Stop camera/parallax movement
             parallaxScript.Camera_Move = false;
 
-            // Option 2: completely freeze parallax script
-            // parallaxScript.enabled = false;
+            // Stop obstacle spawning
+            if (obstacleSpawner != null)
+            {
+                obstacleSpawner.StopSpawning();
+            }
 
-            Debug.Log("⏸️ Parallax movement paused after unlocking both birds.");
+            Debug.Log("⏸️ Parallax movement paused and obstacle spawning stopped.");
         }
         else
         {

@@ -4,15 +4,16 @@ using UnityEngine;
 public class RandomBirdSpawner : MonoBehaviour
 {
     [Header("Spawner Settings")] 
-    public GameObject[] birdPrefabs;       // Bird prefabs to spawn
-    public float spawnInterval = 0.5f;     // Time between spawns
-    public float birdScale = 0.5f;         // Scale of spawned birds
-    public float xOffset = 1f;             // Distance outside canvas right edge
-    public Canvas canvas;                  // World Space Canvas reference
+    public GameObject[] birdPrefabs;
+    public float spawnInterval = 0.5f;
+    public float birdScale = 0.5f;
+    public float xOffset = 1f;
+    public Canvas canvas;
+    public float despawnTime = 20f; // ⏳ Despawn after 20 seconds
 
     [Header("Special Spawn Timing")]
-    public string delayedBirdName = "Bird1_3_0"; // Bird to delay
-    public float delayTime = 20f;                // Seconds before allowing spawn
+    public string delayedBirdName = "Bird1_3_0";
+    public float delayTime = 20f;
 
     private float timer;
     private float sceneTimer;
@@ -22,16 +23,14 @@ public class RandomBirdSpawner : MonoBehaviour
 
     void Start()
     {
-        sceneTimer = 0f; // starts counting from scene load
+        sceneTimer = 0f;
     }
 
     void Update()
     {
         if (gamePaused || spawningDisabled) return;
 
-        // Count time since scene started
         sceneTimer += Time.deltaTime;
-
         timer += Time.deltaTime;
         if (timer >= spawnInterval)
         {
@@ -44,26 +43,18 @@ public class RandomBirdSpawner : MonoBehaviour
     {
         if (birdPrefabs.Length == 0 || canvas == null) return;
 
-        // Filter out unlocked birds AND time-gated ones
         List<GameObject> availableBirds = new List<GameObject>();
         foreach (var b in birdPrefabs)
         {
-            // Skip if unlocked
             if (RuntimeBirdProgress.IsUnlocked(b.name))
                 continue;
 
-            // Skip if this is the delayed bird and time hasn’t reached threshold
             if (b.name == delayedBirdName && sceneTimer < delayTime)
-            {
-                // Uncomment for debug:
-                // Debug.Log($"⏳ Delaying {b.name} spawn until {delayTime}s. Current time: {sceneTimer:F1}s");
                 continue;
-            }
 
             availableBirds.Add(b);
         }
 
-        // Stop spawning if all are unlocked or delayed
         if (availableBirds.Count == 0)
         {
             spawningDisabled = true;
@@ -72,11 +63,9 @@ public class RandomBirdSpawner : MonoBehaviour
             return;
         }
 
-        // Pick a random locked, allowed bird
         GameObject chosenPrefab = availableBirds[Random.Range(0, availableBirds.Count)];
         if (chosenPrefab == null) return;
 
-        // Spawn logic
         RectTransform canvasRect = canvas.GetComponent<RectTransform>();
         Vector3[] corners = new Vector3[4];
         canvasRect.GetWorldCorners(corners);
@@ -94,6 +83,10 @@ public class RandomBirdSpawner : MonoBehaviour
         bird.SetActive(true);
 
         spawnedBirds.Add(bird);
+
+        // ⏳ Despawn bird after 20 seconds
+        Destroy(bird, despawnTime);
+
         Debug.Log($"🕊️ Spawned bird: {chosenPrefab.name} at ({x}, {y}) | Time: {sceneTimer:F1}s");
     }
 }

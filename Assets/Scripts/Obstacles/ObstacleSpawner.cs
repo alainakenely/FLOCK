@@ -7,13 +7,16 @@ public class ObstacleSpawner : MonoBehaviour
     [Header("Spawner Settings")]
     public Sprite[] obstacleSprites; // Sprites to spawn
     public float spawnInterval = 1f;
-    public Canvas canvas;            // World-space canvas (for bounds)
-    public float xOffset = 1f;       // Distance off right edge
-    public float obstacleScale = 1f; // Scale of the spawned sprite
+    public float despawnTime = 20f;  // ⏳ Despawn time in seconds
+    public Canvas canvas;            
+    public float xOffset = 1f;       
+    public float obstacleScale = 1f; 
 
     private float timer;
     private List<GameObject> spawnedObstacles = new List<GameObject>();
-    private bool gamePaused = false; // check pause
+    private bool gamePaused = false;
+
+    public DeathPanel deathPanel; // assign in inspector
 
     void Update()
     {
@@ -26,8 +29,6 @@ public class ObstacleSpawner : MonoBehaviour
             timer = 0f;
         }
     }
-
-    public DeathPanel deathPanel; // assign in inspector
 
     void SpawnObstacle()
     {
@@ -59,9 +60,18 @@ public class ObstacleSpawner : MonoBehaviour
 
         // Add collision behavior and assign DeathPanel
         ObstacleCollisionTest collision = obstacle.AddComponent<ObstacleCollisionTest>();
-        collision.deathPanel = deathPanel; // <<<<< THIS IS CRUCIAL
+        collision.deathPanel = deathPanel;
 
         spawnedObstacles.Add(obstacle);
+
+        // ⏳ Schedule despawn
+        Destroy(obstacle, despawnTime);
+    }
+
+    public void StopSpawning()
+    {
+        gamePaused = true;
+        Debug.Log("🛑 ObstacleSpawner stopped because parallax movement ended.");
     }
 
     public void SetPaused(bool paused)
