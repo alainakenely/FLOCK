@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ParallaxPauseTrigger : MonoBehaviour
 {
+    public static bool IsParallaxActive = true;
     public static ParallaxPauseTrigger Instance;
 
     [Tooltip("Reference your ParallaxBackground_0 script here.")]
@@ -34,6 +35,7 @@ public class ParallaxPauseTrigger : MonoBehaviour
         {
             // Stop camera/parallax movement
             parallaxScript.Camera_Move = false;
+            IsParallaxActive = false; // ✅ Stop player input globally
 
             // Stop obstacle spawning
             if (obstacleSpawner != null)

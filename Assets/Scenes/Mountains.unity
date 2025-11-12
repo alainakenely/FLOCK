@@ -2560,7 +2560,7 @@ GameObject:
   - component: {fileID: 869808371}
   - component: {fileID: 869808370}
   m_Layer: 5
-  m_Name: Panel-EndScreen1
+  m_Name: Panel-EndScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2977,6 +2977,7 @@ MonoBehaviour:
   birdScale: 0.2
   xOffset: 5
   canvas: {fileID: 1174594699}
+  despawnTime: 20
   delayedBirdName: Bird1_3_0
   delayTime: 20
 --- !u!114 &984586583
@@ -3064,6 +3065,7 @@ MonoBehaviour:
   obstacleSprites:
   - {fileID: -1646522822928393028, guid: ef69f1357ff4745acbfa9ea72eab7501, type: 3}
   spawnInterval: 7.64
+  despawnTime: 20
   canvas: {fileID: 1174594699}
   xOffset: 1
   obstacleScale: 1
@@ -4616,8 +4618,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 869808370}
-        m_TargetAssemblyTypeName: DeathPanel, Assembly-CSharp
+      - m_Target: {fileID: 984586591}
+        m_TargetAssemblyTypeName: EndScreen, Assembly-CSharp
         m_MethodName: GoToMainMenu
         m_Mode: 1
         m_Arguments:

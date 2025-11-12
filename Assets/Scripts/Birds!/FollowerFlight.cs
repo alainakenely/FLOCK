@@ -21,7 +21,7 @@ public class FollowerFlightKeyboard : MonoBehaviour
     void Update()
     {
         if (flightCanvas == null) return;
-
+        
         Vector3 pos = transform.position;
 
         if (!offsetApplied)
@@ -75,13 +75,13 @@ public class FollowerFlightKeyboard : MonoBehaviour
             float birdRight = bird.transform.position.x + halfWidth;
             float birdLeft = bird.transform.position.x - halfWidth;
 
-            // If any bird hits top, disable W
-            if (birdTop >= topRight.y && verticalInput > 0) verticalInput = 0f;
-            // If any bird hits bottom, disable S
-            if (birdBottom <= bottomLeft.y && verticalInput < 0) verticalInput = 0f;
-            // Optional horizontal clamping
-            if (birdRight >= topRight.x && horizontalInput > 0) horizontalInput = 0f;
-            if (birdLeft <= bottomLeft.x && horizontalInput < 0) horizontalInput = 0f;
+            // // If any bird hits top, disable W
+            // if (birdTop >= topRight.y && verticalInput > 0) verticalInput = 0f;
+            // // If any bird hits bottom, disable S
+            // if (birdBottom <= bottomLeft.y && verticalInput < 0) verticalInput = 0f;
+            // // Optional horizontal clamping
+            // if (birdRight >= topRight.x && horizontalInput > 0) horizontalInput = 0f;
+            // if (birdLeft <= bottomLeft.x && horizontalInput < 0) horizontalInput = 0f;
         }
 
         return new Vector2(horizontalInput, verticalInput);

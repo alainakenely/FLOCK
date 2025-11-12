@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class EndScreen : MonoBehaviour
 {
     [Header("Assign your End Screen UI panel here")]
@@ -41,5 +41,9 @@ public class EndScreen : MonoBehaviour
         {
             Debug.LogWarning("⚠️ End screen panel not assigned in EndScreen script!");
         }
+    }
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("Home Screen"); // Match exact name
     }
 }

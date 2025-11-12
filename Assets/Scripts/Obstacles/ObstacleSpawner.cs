@@ -54,6 +54,7 @@ public class ObstacleSpawner : MonoBehaviour
 
         SpriteRenderer sr = obstacle.AddComponent<SpriteRenderer>();
         sr.sprite = selectedSprite;
+        sr.sortingOrder = -1; // this ensures it appears behind other sprites
 
         BoxCollider2D col = obstacle.AddComponent<BoxCollider2D>();
         col.isTrigger = true;

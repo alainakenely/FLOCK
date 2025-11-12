@@ -50,6 +50,7 @@ public class PauseMenu : MonoBehaviour
     {
         Debug.Log("Returning to Home Screen...");
         Time.timeScale = 1f; // resume time so next scene isn’t frozen
+        RuntimeBirdProgress.Reset(); // 🧹 Reset unlocks
         SceneManager.LoadScene("Home Screen"); // replace with your home scene’s exact name
     }
 }

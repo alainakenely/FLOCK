@@ -30,6 +30,7 @@ public class DeathPanel : MonoBehaviour
     public void RestartScene()
     {
         Time.timeScale = 1f; // Unpause before restarting
+        RuntimeBirdProgress.Reset(); // 🧹 Reset unlocks
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -37,6 +38,7 @@ public class DeathPanel : MonoBehaviour
     public void GoToMainMenu()
     {
         Time.timeScale = 1f; // Unpause before switching scenes
-        SceneManager.LoadScene("Home Screen"); // Make sure your Home Screen scene is named exactly this
+        RuntimeBirdProgress.Reset(); // 🧹 Reset unlocks
+        SceneManager.LoadScene("Home Screen"); // Match exact name
     }
 }

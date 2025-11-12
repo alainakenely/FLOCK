@@ -3,16 +3,14 @@ using UnityEngine;
 
 public class RandomBirdSpawner : MonoBehaviour
 {
-    [Header("Spawner Settings")] 
-    public GameObject[] birdPrefabs;
+    [Header("Spawner Settings")] public GameObject[] birdPrefabs;
     public float spawnInterval = 0.5f;
     public float birdScale = 0.5f;
     public float xOffset = 1f;
     public Canvas canvas;
     public float despawnTime = 20f; // ⏳ Despawn after 20 seconds
 
-    [Header("Special Spawn Timing")]
-    public string delayedBirdName = "Bird1_3_0";
+    [Header("Special Spawn Timing")] public string delayedBirdName = "Bird1_3_0";
     public float delayTime = 20f;
 
     private float timer;
@@ -84,9 +82,20 @@ public class RandomBirdSpawner : MonoBehaviour
 
         spawnedBirds.Add(bird);
 
-        // ⏳ Despawn bird after 20 seconds
-        Destroy(bird, despawnTime);
+        // ✅ Start a coroutine that checks before despawning
+        StartCoroutine(DespawnIfStillBird(bird, despawnTime));
 
         Debug.Log($"🕊️ Spawned bird: {chosenPrefab.name} at ({x}, {y}) | Time: {sceneTimer:F1}s");
+    }
+
+    private System.Collections.IEnumerator DespawnIfStillBird(GameObject bird, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (bird != null && bird.CompareTag("Bird"))
+        {
+            Destroy(bird);
+            Debug.Log($"🕒 {bird.name} despawned after {delay} seconds (still tagged 'Bird').");
+        }
     }
 }
