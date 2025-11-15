@@ -10,7 +10,6 @@ public class BirdSelectionController : MonoBehaviour
     public RectTransform selectionArea; 
     public float spacing = 200f;        
 
-    // store both buttons + prefabs
     private List<GameObject> selectedBirdPrefabs = new List<GameObject>();
     private List<Button> selectedBirdButtons = new List<Button>();
     private Dictionary<Button, Vector2> originalPositions = new Dictionary<Button, Vector2>();
@@ -19,7 +18,6 @@ public class BirdSelectionController : MonoBehaviour
     {
         startButton.interactable = false;
 
-        // Assign the Start button click event
         startButton.onClick.AddListener(StartGame);
 
         foreach (Button btn in birdButtons)
@@ -34,13 +32,9 @@ public class BirdSelectionController : MonoBehaviour
     {
         RectTransform birdRect = birdButton.GetComponent<RectTransform>();
         BirdButton birdData = birdButton.GetComponent<BirdButton>();
-        Debug.Log("Selected prefabs count: " + selectedBirdPrefabs.Count);
-        Debug.Log("Selecting: " + birdButton.name + " prefab: " + birdData.birdPrefab.name);
-        
 
         if (selectedBirdButtons.Contains(birdButton))
         {
-            // remove from selection
             int index = selectedBirdButtons.IndexOf(birdButton);
             selectedBirdButtons.Remove(birdButton);
             selectedBirdPrefabs.RemoveAt(index);
@@ -50,14 +44,13 @@ public class BirdSelectionController : MonoBehaviour
         }
         else
         {
-            // add to selection
             selectedBirdButtons.Add(birdButton);
             selectedBirdPrefabs.Add(birdData.birdPrefab);
 
             birdRect.SetParent(selectionArea);
         }
 
-        // reposition selected buttons in row
+        // Reposition
         for (int i = 0; i < selectedBirdButtons.Count; i++)
         {
             RectTransform rect = selectedBirdButtons[i].GetComponent<RectTransform>();
@@ -67,22 +60,38 @@ public class BirdSelectionController : MonoBehaviour
         startButton.interactable = selectedBirdButtons.Count > 0;
     }
 
-    // Called when Start button is pressed
     public void StartGame()
     {
-        // Save currently selected prefabs to the static holder
+        // 🔄 Reset runtime unlocks BEFORE loading the new scene
+        RuntimeBirdProgress.Reset();
+
+        // Reset static flags from previous scene
+        ParallaxPauseTrigger.IsParallaxActive = true;
+
+        // Optional: reset any spawners or timers that might persist
+        RandomBirdSpawner[] spawners = FindObjectsOfType<RandomBirdSpawner>();
+        foreach (var spawner in spawners)
+        {
+            spawner.enabled = true;
+        }
+
+        ObstacleSpawner[] obstacles = FindObjectsOfType<ObstacleSpawner>();
+        foreach (var obs in obstacles)
+        {
+            obs.SetPaused(false);
+        }
+
+        // Ensure Time.timeScale is normal
+        Time.timeScale = 1f;
+
+        // Save currently selected prefabs
         BirdSelectionData.selectedBirds = new List<GameObject>(selectedBirdPrefabs);
         Debug.Log("Saved prefabs count: " + BirdSelectionData.selectedBirds.Count);
 
-        // If more than 1 bird was selected → load Snow
+        // Load Snow if more than 1 bird selected
         if (BirdSelectionData.selectedBirds.Count > 1)
-        {
             UnityEngine.SceneManagement.SceneManager.LoadScene("Snow");
-        }
         else
-        {
             UnityEngine.SceneManagement.SceneManager.LoadScene("Mountains");
-        }
     }
-    
 }

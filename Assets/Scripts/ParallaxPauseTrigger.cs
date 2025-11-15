@@ -17,8 +17,15 @@ public class ParallaxPauseTrigger : MonoBehaviour
 
     private void Awake()
     {
+        // If an instance already exists and it's not this one → destroy THIS one
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        // Otherwise set the instance
         Instance = this;
-        if (Instance != null && Instance != this) Destroy(gameObject);
     }
 
     public void TriggerPause()
