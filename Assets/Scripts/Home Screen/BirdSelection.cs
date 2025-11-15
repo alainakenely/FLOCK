@@ -74,8 +74,15 @@ public class BirdSelectionController : MonoBehaviour
         BirdSelectionData.selectedBirds = new List<GameObject>(selectedBirdPrefabs);
         Debug.Log("Saved prefabs count: " + BirdSelectionData.selectedBirds.Count);
 
-        // Load game scene
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Mountains");
+        // If more than 1 bird was selected → load Snow
+        if (BirdSelectionData.selectedBirds.Count > 1)
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Snow");
+        }
+        else
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Mountains");
+        }
     }
     
 }

@@ -928,6 +928,7 @@ MonoBehaviour:
   birdButtons:
   - {fileID: 566014837}
   - {fileID: 294019667}
+  - {fileID: 1347808321}
   selectionArea: {fileID: 884305448}
   spacing: 100
 --- !u!1 &1347808318

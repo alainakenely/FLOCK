@@ -1,23 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-/// <summary>
-/// Stores unlocked bird info during the current play session.
-/// Resets automatically when exiting Play mode.
-/// </summary>
 public static class RuntimeBirdProgress
 {
     private static HashSet<string> unlockedBirds = new HashSet<string>();
 
-    // Store bird by prefab name
     public static void UnlockBird(string prefabName)
     {
-        prefabName = prefabName.Replace("_Clone", "").Trim(); // strip instance suffix
+        prefabName = prefabName.Replace("_Clone", "").Trim();
         unlockedBirds.Add(prefabName);
         Debug.Log($"💾 Unlocked bird at runtime: {prefabName}");
-        CheckForParallaxPause(prefabName);
+        CheckForParallaxPause();
     }
-    
 
     public static bool IsUnlocked(string prefabName)
     {
@@ -30,13 +25,29 @@ public static class RuntimeBirdProgress
         unlockedBirds.Clear();
         Debug.Log("🧹 Runtime bird progress reset");
     }
-    // --- NEW CODE BELOW ---
-    private static void CheckForParallaxPause(string prefabName)
+
+    private static void CheckForParallaxPause()
     {
-        if (IsUnlocked("Bird1_3_0") && IsUnlocked("Bird1_1_0"))
+        string scene = SceneManager.GetActiveScene().name;
+
+        // --- Mountains Logic ---
+        if (scene == "Mountains")
         {
-            Debug.Log("🕊️ Both target birds unlocked — scheduling parallax pause...");
-            ParallaxPauseTrigger.Instance?.TriggerPause();
+            if (IsUnlocked("Bird1_3_0") && IsUnlocked("Bird1_1_0"))
+            {
+                Debug.Log("🕊️ Mountains birds unlocked — pausing parallax...");
+                ParallaxPauseTrigger.Instance?.TriggerPause();
+            }
+        }
+
+        // --- Snow Logic ---
+        else if (scene == "Snow")
+        {
+            if (IsUnlocked("Bird3_Egret2_0") && IsUnlocked("Bird3_Egret4_0"))
+            {
+                Debug.Log("❄️ Snow birds unlocked — pausing parallax...");
+                ParallaxPauseTrigger.Instance?.TriggerPause();
+            }
         }
     }
 }
